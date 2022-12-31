@@ -13,14 +13,69 @@ export type Scalars = {
   Float: number;
 };
 
-export type Entry = {
-  __typename?: 'Entry';
+export type CreateLoginInput = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password: Scalars['String'];
+  passwordConfirmation: Scalars['String'];
+};
+
+export type Login = {
+  __typename?: 'Login';
+  email: Scalars['String'];
   id: Scalars['ID'];
-  message: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
+  user: User;
+};
+
+export type LoginInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type LogoutInput = {
+  sessionId: Scalars['String'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createLogin: Login;
+  login: Session;
+  logout: Session;
+};
+
+
+export type MutationCreateLoginArgs = {
+  input: CreateLoginInput;
+};
+
+
+export type MutationLoginArgs = {
+  input: LoginInput;
+};
+
+
+export type MutationLogoutArgs = {
+  input: LogoutInput;
 };
 
 export type Query = {
   __typename?: 'Query';
-  entries?: Maybe<Array<Maybe<Entry>>>;
+  users?: Maybe<Array<Maybe<User>>>;
+};
+
+export type Session = {
+  __typename?: 'Session';
+  expiry: Scalars['Float'];
+  id: Scalars['ID'];
+  token: Scalars['String'];
+  user: User;
+};
+
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  lastName: Scalars['String'];
 };

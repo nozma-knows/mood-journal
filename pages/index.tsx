@@ -4,11 +4,11 @@ import client from "../apollo-client";
 export async function getStaticProps() {
   const { data } = await client.query({
     query: gql`
-      query getEntries {
-        entries {
+      query gerUsers {
+        users {
           id
-          title
-          message
+          firstName
+          lastName
         }
       }
     `,
@@ -16,24 +16,33 @@ export async function getStaticProps() {
 
   return {
     props: {
-      entries: data.entries,
+      users: data.users,
     },
   };
 }
 
-interface Entry {
+// interface Entry {
+//   id: number;
+//   title: string;
+//   message: string;
+// }
+
+interface User {
   id: number;
-  title: string;
-  message: string;
+  firstName: string;
+  lastName: string;
 }
 
-export default function Home({ entries }: { entries: [Entry] }) {
-  console.log("noah - pages - index.tsx - entries: ", entries);
+// export default function Home({ entries }: { entries: [Entry] }) {
+export default function Home({ users }: { users: [User] }) {
   return (
     <div>
       <div>
-        {entries.map((entry: Entry, index) => (
+        {/* {entries.map((entry: Entry, index) => (
           <div key={index}>{`${entry.title} - ${entry.message}`}</div>
+        ))} */}
+        {users.map((user: User, index) => (
+          <div key={index}>{`${user.firstName} ${user.lastName}`}</div>
         ))}
       </div>
     </div>
