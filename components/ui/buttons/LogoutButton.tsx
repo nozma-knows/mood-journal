@@ -1,17 +1,9 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
-import { gql, useMutation, ApolloError } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { DELETE_SESSION } from "../../graph/mutations";
 import { SessionContext } from "../../context/SessionContext";
 import { Session } from "../../../src/__generated__/graphql";
-
-const DELETE_SESSION = gql`
-  mutation logout($input: LogoutInput!) {
-    logout(input: $input) {
-      id
-      token
-    }
-  }
-`;
 
 export default function LogoutButton() {
   const router = useRouter();

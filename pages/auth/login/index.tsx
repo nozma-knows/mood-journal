@@ -4,18 +4,10 @@ import { SessionContext } from "../../../components/context/SessionContext";
 import * as cookie from "cookie";
 import { FieldValues } from "react-hook-form";
 import LoginForm from "../../../components/ui/forms/auth/LoginForm";
-import { gql, useMutation, ApolloError } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { CREATE_SESSION } from "../../../components/graph/mutations";
 import { Session } from "../../../src/__generated__/graphql";
-
-const CREATE_SESSION = gql`
-  mutation login($input: LoginInput!) {
-    login(input: $input) {
-      id
-      token
-      expiry
-    }
-  }
-`;
+import AuthPage from "../../../components/ui/pages/AuthPage";
 
 export function getServerSideProps(context: any) {
   if (context.req.headers.cookie) {
@@ -36,7 +28,6 @@ export function getServerSideProps(context: any) {
 
 export default function Login() {
   const session: any = useContext(SessionContext);
-  console.log("auth/login - session: ", session);
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string>();
 
@@ -65,9 +56,13 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <LoginForm loading={loading} onSubmit={onSubmit} />
-      {error && <div>{`${errorMessage}`}</div>}
-    </div>
+    <AuthPage
+      title="Log in"
+      loading={loading}
+      onSubmit={onSubmit}
+      Form={LoginForm}
+      error={error}
+      errorMessage={errorMessage}
+    />
   );
 }

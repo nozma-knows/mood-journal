@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { gql, useMutation, ApolloError } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { CREATE_LOGIN } from "../../../components/graph/mutations";
 import { FieldValues } from "react-hook-form";
 import SignupForm from "../../../components/ui/forms/auth/SignupForm";
-
-const CREATE_LOGIN = gql`
-  mutation CreateLogin($input: CreateLoginInput!) {
-    createLogin(input: $input) {
-      id
-      email
-    }
-  }
-`;
+import AuthPage from "../../../components/ui/pages/AuthPage";
 
 export default function Signup() {
   const router = useRouter();
@@ -25,7 +18,6 @@ export default function Signup() {
   });
 
   const onSubmit = (data: FieldValues) => {
-    console.log("Signup onSubmit - data: ", data);
     createLogin({
       variables: {
         input: data,
@@ -34,9 +26,13 @@ export default function Signup() {
   };
 
   return (
-    <div>
-      <SignupForm loading={loading} onSubmit={onSubmit} />
-      {error && <div>{`${errorMessage}`}</div>}
-    </div>
+    <AuthPage
+      title="Sign up"
+      loading={loading}
+      onSubmit={onSubmit}
+      Form={SignupForm}
+      error={error}
+      errorMessage={errorMessage}
+    />
   );
 }
